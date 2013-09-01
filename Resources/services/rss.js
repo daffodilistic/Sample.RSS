@@ -40,15 +40,7 @@ exports.loadRssFeed = function(o, tries) {
 			var item = items.item(i);
 			var image;
 			try {
-				// Original
-				//var image = item.getElementsByTagNameNS('http://mashable.com/rss', 'thumbnail').item(0).getElementsByTagName('img').item(0).getAttribute('src');
-				
-				// Correct so far
-				//var text = item.getElementsByTagNameNS('http://mashable.com/rss', 'thumbnail').item(0);
 				var text = item.getElementsByTagNameNS('http://mashable.com/rss', 'thumbnail').item(0).getChildNodes().item(1).data.split(" ").splice(-2, 1)[0];
-				
-				// Modified Solution
-				//var text = item.getElementsByTagName('thumbnail').item(0).childNodes[1].data.split(" ").splice(-2, 1)[0];
 				var temp = text.substring(5, text.length-1); 
 				image = temp;
 			} catch (e) {
