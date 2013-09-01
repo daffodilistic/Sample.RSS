@@ -6,13 +6,13 @@ var getRssText = function(item, key) {
 	return osname === 'mobileweb' ?
 			item.getElementsByTagName(key).item(0).textContent : //childNodes[0].nodeValue :
 			item.getElementsByTagName(key).item(0).text;
-}
+};
 
 var parseDate = function(dateString) {
 	var dateParts = dateString.split(' ');
 	var timeParts = dateParts[4].split(':');
 	return MONTH_MAP[dateParts[2].toUpperCase()] + '/' + dateParts[1] + ' ' + timeParts[0] + ':' + timeParts[1];
-}
+};
 
 exports.loadRssFeed = function(o, tries) {
 	var xhr = Titanium.Network.createHTTPClient();	
@@ -40,7 +40,17 @@ exports.loadRssFeed = function(o, tries) {
 			var item = items.item(i);
 			var image;
 			try {
-			var image = item.getElementsByTagNameNS('http://mashable.com/', 'thumbnail').item(0).getElementsByTagName('img').item(0).getAttribute('src');
+				// Original
+				//var image = item.getElementsByTagNameNS('http://mashable.com/rss', 'thumbnail').item(0).getElementsByTagName('img').item(0).getAttribute('src');
+				
+				// Correct so far
+				//var text = item.getElementsByTagNameNS('http://mashable.com/rss', 'thumbnail').item(0);
+				var text = item.getElementsByTagNameNS('http://mashable.com/rss', 'thumbnail').item(0).getChildNodes().item(1).data.split(" ").splice(-2, 1)[0];
+				
+				// Modified Solution
+				//var text = item.getElementsByTagName('thumbnail').item(0).childNodes[1].data.split(" ").splice(-2, 1)[0];
+				var temp = text.substring(5, text.length-1); 
+				image = temp;
 			} catch (e) {
 				image = '';
 			}
